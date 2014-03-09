@@ -38,13 +38,13 @@ void setup()
   
   temp2 = temp1+2;  //Serial.begin(9600);
   
-  
   lcd.begin(16,4);lcd.print("  Distiller thinner ");
-  lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
+  lcd.setCursor(0, 1);lcd.print("    Please Choose   ");delay(2000);
 }
 
 void loop()
 {
+  // Start //
   f=0;
   DateTime now = rtc.now(); 
   year0 = now.year(); month0 = now.month();   day0 = now.day();
@@ -107,6 +107,7 @@ void loop()
   
   while(u == 2)
     {
+      
        Manualstate1 = digitalRead(Manual1);
        if(Manualstate1 == LOW)
        { delay(200);y=1;}
@@ -124,7 +125,9 @@ void loop()
       if(Manualstate4 == LOW)                  
       { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");digitalWrite(solid2,LOW);digitalWrite(relay,LOW);delay(1000);u=0; }
     }    
-}
+    
+    
+}// END //
 /////////////////////////////////////  Settime  ///////////////////////////////////////////////////////
 void settime()
 {
@@ -176,8 +179,7 @@ void automatic()
   {
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-    display_time();
-    check();delay(500);
+    display_time();check();
     if(bb == hour0 && a == minute0)
     { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
   }
@@ -186,8 +188,7 @@ void automatic()
   {
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(hh);lcd.print(":");lcd.print(mm);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-    display_time();
-    check();delay(500);
+    display_time();check();
     if(hh == hour0 && mm == minute0)
     { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
   }
@@ -218,6 +219,7 @@ void display_time()
   lcd.setCursor(6, 2);
   lcd.print("T:");lcd.print(temp_c);lcd.print(" C");lcd.print(" & ");
   lcd.print("F:");lcd.print(temp_f);lcd.print(" F  ");
+  
   DateTime now = rtc.now();
   lcd.setCursor(7, 3);
   lcd.print("Time: ");lcd.print(now.hour(), DEC);lcd.print(':');lcd.print(now.minute(), DEC);lcd.print(':');lcd.print(now.second(), DEC);
