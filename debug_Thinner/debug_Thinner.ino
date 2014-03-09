@@ -54,6 +54,7 @@ void loop()
   display_time();delay(300);
   
  /////////////////////////////////////  Switch Set  /////////////////////////////////////////////////////// 
+ /////////////////////////////////////  Automatic Mode  /////////////////////////////////////////////////////// 
   buttonstate1 = digitalRead(button1);
   if(buttonstate1 == LOW)
   {
@@ -63,7 +64,7 @@ void loop()
     hh = h+tt1; mm = m+mm1; 
     automatic();
   }
- 
+ /////////////////////////////////////  Set time and temperature  ///////////////////////////////////////////////////////  
   buttonstate2 = digitalRead(button2);
   if(buttonstate2 == LOW)
   { delay(200);i = 1;}
@@ -78,7 +79,7 @@ void loop()
       if(buttonstate4 == LOW)         
         { lcd.setCursor(0,1);lcd.print("   Set Temperature    ");delay(2000);settemp();i=0; }
     }
-/////////////////////////////////////  Hearter  ///////////////////////////////////////////////////////
+/////////////////////////////////////  Hearter on  ///////////////////////////////////////////////////////
   Manualstate1 = digitalRead(Manual1);
   if(Manualstate1 == LOW)
   { delay(200);u=1;}
@@ -100,7 +101,7 @@ void loop()
       if(Manualstate4 == LOW)
       { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");digitalWrite(solid2,LOW);digitalWrite(relay,LOW);}
     } 
-/////////////////////////////////////  Pump Fan  ///////////////////////////////////////////////////////  
+/////////////////////////////////////  Pump Fan on  ///////////////////////////////////////////////////////  
   Manualstate2 = digitalRead(Manual2);
   if(Manualstate2 == LOW)
   { delay(200);lcd.setCursor(0,1);lcd.print("    Pump / Fan      ");digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);u=2;}
@@ -164,19 +165,20 @@ void automatic()
     f=1;
     while(f == 1)
     {
-      aa = 0;digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
-      Serial.println("Start");
-      DateTime now = rtc.now(); 
-      hour0 = now.hour(); minute0 = now.minute();second0 = now.second();
-      DateTime future (now.unixtime() + 7 * 86400L + 30);
-    if(hh < 23 || mm < 59){aa=2;}
-    if(hh > 23 || mm > 59){
-    if(hh > 23){ b = hh - 24;} 
-    if(mm > 59){ a = mm - 60; bb = hh + 1;}
-    aa = 1;}
+      aa = 0;
+      //DateTime now = rtc.now(); 
+      //hour0 = now.hour(); minute0 = now.minute();second0 = now.second();
+      //DateTime future (now.unixtime() + 7 * 86400L + 30);
+      
+      if(hh < 23 || mm < 59){aa=2;}
+      if(hh > 23 || mm > 59){
+      if(hh > 23){ b = hh - 24;} 
+      if(mm > 59){ a = mm - 60; bb = hh + 1;}
+      aa = 1;}
  
     while(aa == 1)
   {
+    digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
     display_time();check();
@@ -186,6 +188,7 @@ void automatic()
   
     while( aa == 2)
   {
+    digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(hh);lcd.print(":");lcd.print(mm);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
     display_time();check();
@@ -205,7 +208,7 @@ void check()
   {
     digitalWrite(solid1,HIGH);
   }
-  else if(temp_c >= temp2)
+  if(temp_c >= temp2)
   {
     digitalWrite(solid1,LOW);
   }
