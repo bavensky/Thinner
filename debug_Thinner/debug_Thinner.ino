@@ -181,7 +181,7 @@ void automatic()
     digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-    display_time();check();
+    display_time();check1();
     if(bb == hour0 && a == minute0)
     { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
   }
@@ -191,7 +191,7 @@ void automatic()
     digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
     DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
     lcd.setCursor(0,1);lcd.print("Time ");lcd.print(hh);lcd.print(":");lcd.print(mm);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-    display_time();check();
+    display_time();check2();
     if(hh == hour0 && mm == minute0)
     { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
   }
@@ -202,6 +202,54 @@ void automatic()
 }
 ////////////////////////////////////  Check  ////////////////////////////////////////////////////////
 void check()
+{
+  temp_c = thermocouple.measure(TEMPC);
+  if(temp_c <= temp1 )
+  {
+    digitalWrite(solid1,HIGH);
+  }
+  if(temp_c >= temp2)
+  {
+    digitalWrite(solid1,LOW);g=1;
+  }
+  while(g == 1)
+  {
+    for(int f=0; f<100; f++)
+    {
+      display_time();
+    }
+    g=0;
+  }
+  
+}
+////////////////////////////////////  Check1  ////////////////////////////////////////////////////////
+void check1()
+{
+  temp_c = thermocouple.measure(TEMPC);
+  if(temp_c <= temp1 )
+  {
+    digitalWrite(solid1,HIGH);
+  }
+  if(temp_c >= temp2)
+  {
+    digitalWrite(solid1,LOW);g=1;
+  }
+  while(g == 1)
+  {
+    for(int f=0; f<100; f++)
+    {
+      DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
+      lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
+      display_time();
+      if(hh == hour0 && mm == minute0)
+      { g=0; aa=0; }
+      g=0;
+    }
+  }
+  
+}
+////////////////////////////////////  Check2  ////////////////////////////////////////////////////////
+void check2()
 {
   temp_c = thermocouple.measure(TEMPC);
   if(temp_c <= temp1 )
