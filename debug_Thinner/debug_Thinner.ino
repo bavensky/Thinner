@@ -214,7 +214,7 @@ void check()
   }
   while(g == 1)
   {
-    for(int f=0; f<100; f++)
+    for(int f=0; f<20; f++)
     {
       display_time();
     }
@@ -236,13 +236,13 @@ void check1()
   }
   while(g == 1)
   {
-    for(int f=0; f<100; f++)
+    for(int f=0; f<20; f++)
     {
       DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
       lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-      display_time();
+      display_time();//DateTime future (now.unixtime() + 7 * 86400L + 30);
       if(hh == hour0 && mm == minute0)
-      { g=0; aa=0; }
+      { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); g=0; aa=0; }
       g=0;
     }
   }
@@ -262,13 +262,13 @@ void check2()
   }
   while(g == 1)
   {
-    for(int f=0; f<100; f++)
+    for(int f=0; f<20; f++)
     {
       DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
       lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
-      display_time();
+      display_time();//DateTime future (now.unixtime() + 7 * 86400L + 30);
       if(bb == hour0 && a == minute0)
-      { g=0;aa=0; }
+      { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); g=0; aa=0; }
       g=0;
     }
   }
