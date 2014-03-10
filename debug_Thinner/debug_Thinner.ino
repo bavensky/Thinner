@@ -20,13 +20,13 @@ int solid1 = A1; int solid2 = A2; int relay = A3;
 int time = 30; byte i=0; byte u=0; int f=0; int y=0; int t=0; int a=0; int aa=0; int b=0; int bb=0;
 int h=0; int hh=0; int m=0; int mm=0; int t1 = 0; int m1 = 0;
 int temp_c;  int temp_f;  int tempc;  int tempf;
-int temp1=30; int temp2=0; int temp3=0; int temp4=0;
+int temp1=100; int temp2=0; int temp3=0; int temp4=0;
 int year0; int month0; int day0; int hour0; int minute0; int second0; 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup()
 {
-  Wire.begin();rtc.begin();thermocouple.init(A0);
+  Wire.begin();rtc.begin();thermocouple.init(0);
   if(! rtc.isrunning()){rtc.adjust(DateTime(__DATE__,__TIME__));}
   
   pinMode(solid1, OUTPUT); pinMode(solid2, OUTPUT); pinMode(relay, OUTPUT);
@@ -36,10 +36,10 @@ void setup()
   pinMode(Manual1, INPUT);pinMode(Manual2, INPUT);
   pinMode(Manual3, INPUT);pinMode(Manual4, INPUT);
   
-  temp2 = temp1+2;  //Serial.begin(9600);
+  temp2 = temp1+10;  //Serial.begin(9600);
   
-  lcd.begin(16,4);lcd.print("  Distiller thinner ");
-  lcd.setCursor(0, 1);lcd.print("    Please Choose   ");delay(2000);
+  lcd.begin(16,4);lcd.print("  Distiller thinner ");delay(2000);
+  lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
 }
 
 void loop()
@@ -51,7 +51,7 @@ void loop()
   hour0 = now.hour(); minute0 = now.minute(); second0 = now.second();
   DateTime future (now.unixtime() + 7 * 86400L + 30);
   lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
-  display_time();delay(300);
+  display_time();
   
  /////////////////////////////////////  Switch Set  /////////////////////////////////////////////////////// 
  /////////////////////////////////////  Automatic Mode  /////////////////////////////////////////////////////// 
@@ -175,7 +175,7 @@ void automatic()
       if(hh > 23){ b = hh - 24;} 
       if(mm > 59){ a = mm - 60; bb = hh + 1;}
       aa = 1;}
- 
+
     while(aa == 1)
   {
     digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
@@ -221,7 +221,7 @@ void display_time()
   temp_f = thermocouple.measure(TEMPF);
   lcd.setCursor(6, 2);
   lcd.print("T:");lcd.print(temp_c);lcd.print(" C");lcd.print(" & ");
-  lcd.print("F:");lcd.print(temp_f);lcd.print(" F  ");
+  lcd.print("F:");lcd.print(temp_f);lcd.print(" F  ");delay(500);
   
   DateTime now = rtc.now();
   lcd.setCursor(7, 3);
