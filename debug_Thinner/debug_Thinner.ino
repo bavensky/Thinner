@@ -18,7 +18,7 @@ int Manualstate3 = 0; int Manualstate4 = 0;
 int solid1 = A1; int solid2 = A2; int relay = A3;
 ////////////////////////////////////////////////////////////////////////////////////////////
 int time = 30; byte i=0; byte u=0; int f=0; int y=0; int t=0; int a=0; int aa=0; int b=0; int bb=0;
-int h=0; int hh=0; int m=0; int mm=0; int t1 = 0; int m1 = 0;
+int h=0; int hh=0; int m=0; int mm=0; int t1 = 0; int m1 = 0; int g=0;
 int temp_c;  int temp_f;  int tempc;  int tempf;
 int temp1=100; int temp2=0; int temp3=0; int temp4=0;
 int year0; int month0; int day0; int hour0; int minute0; int second0; 
@@ -210,7 +210,19 @@ void check()
   }
   if(temp_c >= temp2)
   {
-    digitalWrite(solid1,LOW);
+    digitalWrite(solid1,LOW);g=1;
+  }
+  while(g == 1)
+  {
+    for(int f=0; f<100; f++)
+    {
+      DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
+      lcd.setCursor(0,1);lcd.print("Time ");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp ");lcd.print(temp1);lcd.print("C");
+      display_time();
+      if(bb == hour0 && a == minute0)
+      { g=0;aa=0; }
+      g=0;
+    }
   }
   
 }
