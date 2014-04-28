@@ -73,27 +73,13 @@
       buttonstate1 = digitalRead(button1);
       if(buttonstate1 == LOW)
       {
-        lcd.setCursor(0,1);lcd.print("      Automatic       ");
-        int tt1 = 1; int mm1 = 0;
-        h = hour0; m = minute0;
-        hh = h+tt1; mm = m+mm1; 
+        lcd.setCursor(0,1);
+        lcd.print("      Automatic       ");
+        int tt1 = 1;  int mm1 = 0;
+        h = hour0;    m = minute0;
+        hh = h+tt1;   mm = m+mm1; 
         automatic();
       }
-  /////////////////////////////////////  Set time and temperature  ///////////////////////////////////////////////////////  
-      buttonstate2 = digitalRead(button2);
-      if(buttonstate2 == LOW)
-      { delay(200);i = 1;}
-        
-        while(i == 1)
-        {
-          lcd.setCursor(0,1);lcd.print("Set Time || Set Temp");
-          buttonstate3 = digitalRead(button3);
-          if(buttonstate3 == LOW)
-            { lcd.setCursor(0,1);lcd.print("      Set Time        ");delay(1000);settime();i=0; }
-          buttonstate4 = digitalRead(button4);
-          if(buttonstate4 == LOW)         
-            { lcd.setCursor(0,1);lcd.print("   Set Temperature    ");delay(1000);settemp();i=0; }
-        }
   /////////////////////////////////////  Hearter on  ///////////////////////////////////////////////////////
       Manualstate1 = digitalRead(Manual1);
       if(Manualstate1 == LOW)
@@ -121,158 +107,32 @@
           }
         } 
   /////////////////////////////////////  Pump Fan on  ///////////////////////////////////////////////////////  
-  Manualstate2 = digitalRead(Manual2);
-  if(Manualstate2 == LOW)
-  { delay(200);u=2;}
-  
-  while(u == 2)
-    {
-       lcd.setCursor(0,1);lcd.print("    Pump / Fan      ");digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
-       display_time();
-       
-       Manualstate1 = digitalRead(Manual1);
-       if(Manualstate1 == LOW)
-       { delay(200);y=1;}
-       while(y == 1)
-       {                             
-          lcd.setCursor(0,1);lcd.print("       Heater       ");
-          display_time();
-      
-          Manualstate3 = digitalRead(Manual3);
-          if(Manualstate3 == LOW)
-          { delay(200);lcd.setCursor(0,1);lcd.print("     END Heater     ");delay(500);digitalWrite(solid1,LOW);delay(1000);y=0; }         
-        } 
-          
-      Manualstate4 = digitalRead(Manual4);
-      if(Manualstate4 == LOW)                  
-      { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");delay(500);digitalWrite(solid2,LOW);digitalWrite(relay,LOW);delay(1000);u=0; }
-    }    
-       
-}///////////////////////////////////// END Loop //////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////  Settime  //////////////////////////////////////////////////////////////
-    void settime()
-    {
-       delay(200);lcd.clear();lcd.print("  Distiller thinner "); i=1;
-       while(i==1)
-       {
-         lcd.setCursor(3,1);lcd.print("Set Time : ");lcd.print(m1);lcd.print("  ");t1 = 0;
-         display_time();
-         buttonstate2 = digitalRead(button2);if(buttonstate2 == LOW){i=2;}; 
-         buttonstate3 = digitalRead(button3);if(buttonstate3 == LOW){delay(200);m1 = m1 + 1;}; 
-         buttonstate4 = digitalRead(button4);if(buttonstate4 == LOW){delay(200);m1 = m1 - 1;}; 
-         h = hour0; m = minute0;
-         hh = h+t1; mm = m+m1; 
-       }
-       automatic(); 
-    }
-/////////////////////////////////////  Settemp  ///////////////////////////////////////////////////////
-    void settemp()
-    {
-       delay(200);lcd.clear();lcd.print("  Distiller thinner "); i=1;
-       while(i==1)
-       {
-         lcd.setCursor(3,1);lcd.print("Set Temp : ");lcd.print(maintemp1);
-         display_time();
-         buttonstate2 = digitalRead(button2);if(buttonstate2 == LOW){i=2;}; 
-         buttonstate3 = digitalRead(button3);if(buttonstate3 == LOW){delay(200);maintemp1 = maintemp1 + 1;}; 
-         buttonstate4 = digitalRead(button4);if(buttonstate4 == LOW){delay(200);maintemp1 = maintemp1 - 1;}; 
-         maintemp2 = maintemp1+5;
-       }
-    }
-/////////////////////////////////// Automatic  /////////////////////////////////////////////////////////
-    void automatic()
-    {
-        f=1;
-        while(f == 1)
-        {
-          aa = 0;      
-          if(hh < 23 || mm < 59){aa=2;}
-          
-          if(hh > 23 || mm > 59)
-          {
-            if(hh > 23){ bb = hh - 24;} 
-            if(mm > 59){ a = mm - 60; bb = hh + 1;}
-            aa = 1;
-          }
+    Manualstate2 = digitalRead(Manual2);
+    if(Manualstate2 == LOW)
+    { delay(200);u=2;}
     
-      while(aa == 1)
+    while(u == 2)
       {
-        digitalWrite(solid1,HIGH);
-        digitalWrite(solid2,HIGH);
-        digitalWrite(relay,HIGH);
+         lcd.setCursor(0,1);lcd.print("    Pump / Fan      ");digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
+         display_time();
+         
+         Manualstate1 = digitalRead(Manual1);
+         if(Manualstate1 == LOW)
+         { delay(200);y=1;}
+         while(y == 1)
+         {                             
+            lcd.setCursor(0,1);lcd.print("       Heater       ");
+            display_time();
         
-        ds1307();
-        
-        lcd.setCursor(0,1);
-        lcd.print(" Time");
-        lcd.print(bb);
-        lcd.print(":");
-        lcd.print(a);
-        lcd.print("m ");
-        lcd.print("Temp");
-        lcd.print(maintemp1);
-        lcd.print("C ");
-        
-        if(bb == hour0 && a == minute0)
-        { 
-          digitalWrite(solid1,LOW);
-          digitalWrite(solid2,LOW);
-          digitalWrite(relay,LOW); 
-          aa=0; 
-        }
-      }
-      
-        while( aa == 2)
-      {
-        digitalWrite(solid1,HIGH);
-        digitalWrite(solid2,HIGH);
-        digitalWrite(relay,HIGH);
-        
-        ds1307();
-        
-        lcd.setCursor(0,1);
-        lcd.print(" Time");
-        lcd.print(hh);
-        lcd.print(":");
-        lcd.print(mm);
-        lcd.print("m ");
-        lcd.print("Temp");
-        lcd.print(maintemp1);
-        lcd.print("C ");
-        
-        if(hh == hour0 && mm == minute0)
-        {
-          digitalWrite(solid1,LOW);
-          digitalWrite(solid2,LOW);
-          digitalWrite(relay,LOW); 
-          aa=0; 
-        }
-      }
-      
-       lcd.setCursor(0,1);lcd.print("       Finish         ");delay(3000);
-       f=2;
-      }
+            Manualstate3 = digitalRead(Manual3);
+            if(Manualstate3 == LOW)
+            { delay(200);lcd.setCursor(0,1);lcd.print("     END Heater     ");delay(500);digitalWrite(solid1,LOW);delay(1000);y=0; }         
+          } 
+            
+        Manualstate4 = digitalRead(Manual4);
+        if(Manualstate4 == LOW)                  
+        { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");delay(500);digitalWrite(solid2,LOW);digitalWrite(relay,LOW);delay(1000);u=0; }
+      }           
     }
-///////////////////////////////////  Display  /////////////////////////////////////////////////////////
-    void display_time()
-    {
-      temp = thermocouple.measure(TEMPC);
-      
-      lcd.setCursor(4, 2);
-      lcd.print(" Temperature = ");
-      lcd.print(temp);
-      lcd.print("C ");
-      
-      ds1307();
-      lcd.setCursor(7, 3);
-      lcd.print("Time: ");
-      lcd.print(hour0);
-      lcd.print(':');
-      lcd.print(minute0);
-      lcd.print(':');
-      lcd.print(second0);
+///////////////////////////////////// END Loop //////////////////////////////////////////////////////////////
 
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
