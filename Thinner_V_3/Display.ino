@@ -4,8 +4,7 @@
  ///////////////////////////////////  Display  /////////////////////////////////////////////////////////
     void display_time()
     {
-      temp = thermocouple.measure(TEMPC);
-      
+      temp = thermocouple.measure(TEMPC);    
       lcd.setCursor(4, 2);
       lcd.print(" Temperature = ");
       lcd.print(temp);
