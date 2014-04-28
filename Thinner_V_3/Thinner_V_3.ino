@@ -2,7 +2,6 @@
  * Project  : Distiller thinner                                                *
  * Compiler : Arduino 1.0.2                                                    *
  * Board    : Arduino UNO                                                      *
- * Shield   : [DFROBOT] Arduino LCD Keypad Shield                              *
  * Module   : Solidstate relay x 2  relay x 1                                  *
  *          : RealTimeClock Module                                             *
  *          : CD4050 and thermocouple type K                                   *
