@@ -64,9 +64,7 @@
     void loop()
     {
       f=0;
-      
-      
-      
+      ds1307();
       lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
       display_time();
       
@@ -201,22 +199,56 @@
     
       while(aa == 1)
       {
-        digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
-        DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
-        lcd.setCursor(0,1);lcd.print(" Time");lcd.print(bb);lcd.print(":");lcd.print(a);lcd.print("m ");lcd.print("Temp");lcd.print(maintemp1);lcd.print("C ");
-        display_time();
+        digitalWrite(solid1,HIGH);
+        digitalWrite(solid2,HIGH);
+        digitalWrite(relay,HIGH);
+        
+        ds1307();
+        
+        lcd.setCursor(0,1);
+        lcd.print(" Time");
+        lcd.print(bb);
+        lcd.print(":");
+        lcd.print(a);
+        lcd.print("m ");
+        lcd.print("Temp");
+        lcd.print(maintemp1);
+        lcd.print("C ");
+        
         if(bb == hour0 && a == minute0)
-        { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
+        { 
+          digitalWrite(solid1,LOW);
+          digitalWrite(solid2,LOW);
+          digitalWrite(relay,LOW); 
+          aa=0; 
+        }
       }
       
         while( aa == 2)
       {
-        digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
-        DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
-        lcd.setCursor(0,1);lcd.print(" Time");lcd.print(hh);lcd.print(":");lcd.print(mm);lcd.print("m ");lcd.print("Temp");lcd.print(maintemp1);lcd.print("C ");
-        display_time();
+        digitalWrite(solid1,HIGH);
+        digitalWrite(solid2,HIGH);
+        digitalWrite(relay,HIGH);
+        
+        ds1307();
+        
+        lcd.setCursor(0,1);
+        lcd.print(" Time");
+        lcd.print(hh);
+        lcd.print(":");
+        lcd.print(mm);
+        lcd.print("m ");
+        lcd.print("Temp");
+        lcd.print(maintemp1);
+        lcd.print("C ");
+        
         if(hh == hour0 && mm == minute0)
-        { digitalWrite(solid1,LOW);digitalWrite(solid2,LOW);digitalWrite(relay,LOW); aa=0; }
+        {
+          digitalWrite(solid1,LOW);
+          digitalWrite(solid2,LOW);
+          digitalWrite(relay,LOW); 
+          aa=0; 
+        }
       }
       
        lcd.setCursor(0,1);lcd.print("       Finish         ");delay(3000);
@@ -227,12 +259,20 @@
     void display_time()
     {
       temp = thermocouple.measure(TEMPC);
-      lcd.setCursor(4, 2);
-      lcd.print(" Temperature = ");lcd.print(temp);lcd.print("C ");
       
-      DateTime now = rtc.now();
+      lcd.setCursor(4, 2);
+      lcd.print(" Temperature = ");
+      lcd.print(temp);
+      lcd.print("C ");
+      
+      ds1307();
       lcd.setCursor(7, 3);
-      lcd.print("Time: ");lcd.print(hour0);lcd.print(':');lcd.print(minute0);lcd.print(':');lcd.print(second0);
-      DateTime future (now.unixtime() + 7 * 86400L + 30);
+      lcd.print("Time: ");
+      lcd.print(hour0);
+      lcd.print(':');
+      lcd.print(minute0);
+      lcd.print(':');
+      lcd.print(second0);
+
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
