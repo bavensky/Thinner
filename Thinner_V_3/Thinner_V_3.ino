@@ -35,8 +35,9 @@
     
     int solid1 = A1;        int solid2 = A2;         int relay = A3;
 ////////////////////////////////////////////////////////////////////////////////////////////
-    int time = 30; byte i=0; byte u=0; int f=0; int y=0; int t=0; int a=0; int aa=0; int bb=0;
-    int h=0; int hh=0; int m=0; int mm=0; int t1 = 0; int m1 = 0; int g=0;
+    int time = 30; 
+    int i=0,  u=0,  f=0,  y=0,  t=0,  a=0,  aa=0,  bb=0;
+    int h=0,  hh=0,  m=0,  mm=0,  t1 = 0,  m1 = 0,  g=0;
     int year0,month0,day0;   int hour0,minute0,second0; 
     int maintemp1=100  ,maintemp2=0,  temp,  temp1;
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,14 +46,16 @@
     {
       Wire.begin();rtc.begin();thermocouple.init(0);
       if(! rtc.isrunning()){rtc.adjust(DateTime(__DATE__,__TIME__));}
-      
+      /*solid1 mean hearter  ||   solid2 mean pump    ||   relay mean fan    */
       pinMode(solid1, OUTPUT); pinMode(solid2, OUTPUT); pinMode(relay, OUTPUT);
-    
+      
+      /*   8 button    */
       pinMode(button1, INPUT);pinMode(button2, INPUT);
       pinMode(button3, INPUT);pinMode(button4, INPUT);
       pinMode(Manual1, INPUT);pinMode(Manual2, INPUT);
       pinMode(Manual3, INPUT);pinMode(Manual4, INPUT);
-       
+      
+      /*    Start display     */
       lcd.begin(16,4);lcd.print("  Distiller thinner ");delay(2000);
       lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
     }
@@ -62,26 +65,23 @@
     {
       f=0;
       
-      DateTime now = rtc.now(); 
-      year0 = now.year(); month0 = now.month();   day0 = now.day();
-      hour0 = now.hour(); minute0 = now.minute(); second0 = now.second();
-      DateTime future (now.unixtime() + 7 * 86400L + 30);
+      
       
       lcd.setCursor(0, 1);lcd.print("    Please Choose   ");
       display_time();
       
- /////////////////////////////////////  Switch Set  /////////////////////////////////////////////////////// 
- /////////////////////////////////////  Automatic Mode  /////////////////////////////////////////////////////// 
+   /////////////////////////////////////  Switch Set  /////////////////////////////////////////////////////// 
+   /////////////////////////////////////  Automatic Mode  /////////////////////////////////////////////////////// 
       buttonstate1 = digitalRead(button1);
       if(buttonstate1 == LOW)
       {
         lcd.setCursor(0,1);lcd.print("      Automatic       ");
-        int tt1 = 2; int mm1 = 30;
+        int tt1 = 1; int mm1 = 0;
         h = hour0; m = minute0;
         hh = h+tt1; mm = m+mm1; 
         automatic();
       }
-     /////////////////////////////////////  Set time and temperature  ///////////////////////////////////////////////////////  
+  /////////////////////////////////////  Set time and temperature  ///////////////////////////////////////////////////////  
       buttonstate2 = digitalRead(button2);
       if(buttonstate2 == LOW)
       { delay(200);i = 1;}
@@ -96,7 +96,7 @@
           if(buttonstate4 == LOW)         
             { lcd.setCursor(0,1);lcd.print("   Set Temperature    ");delay(1000);settemp();i=0; }
         }
-/////////////////////////////////////  Hearter on  ///////////////////////////////////////////////////////
+  /////////////////////////////////////  Hearter on  ///////////////////////////////////////////////////////
       Manualstate1 = digitalRead(Manual1);
       if(Manualstate1 == LOW)
       { delay(200);u=1;}
@@ -122,7 +122,7 @@
             { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");delay(500);digitalWrite(solid2,LOW);digitalWrite(relay,LOW);y=0;}
           }
         } 
-/////////////////////////////////////  Pump Fan on  ///////////////////////////////////////////////////////  
+  /////////////////////////////////////  Pump Fan on  ///////////////////////////////////////////////////////  
   Manualstate2 = digitalRead(Manual2);
   if(Manualstate2 == LOW)
   { delay(200);u=2;}
@@ -149,8 +149,7 @@
       if(Manualstate4 == LOW)                  
       { delay(200);lcd.setCursor(0,1);lcd.print("  Stop Pump / Fan   ");delay(500);digitalWrite(solid2,LOW);digitalWrite(relay,LOW);delay(1000);u=0; }
     }    
-    
-    
+       
 }///////////////////////////////////// END Loop //////////////////////////////////////////////////////////////
 
 
@@ -192,6 +191,7 @@
         {
           aa = 0;      
           if(hh < 23 || mm < 59){aa=2;}
+          
           if(hh > 23 || mm > 59)
           {
             if(hh > 23){ bb = hh - 24;} 
@@ -199,7 +199,7 @@
             aa = 1;
           }
     
-        while(aa == 1)
+      while(aa == 1)
       {
         digitalWrite(solid2,HIGH);digitalWrite(relay,HIGH);
         DateTime now = rtc.now(); hour0 = now.hour();minute0 = now.minute();
@@ -223,7 +223,6 @@
        f=2;
       }
     }
-    
 ///////////////////////////////////  Display  /////////////////////////////////////////////////////////
     void display_time()
     {
