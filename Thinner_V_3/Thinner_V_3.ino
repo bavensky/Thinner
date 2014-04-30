@@ -72,9 +72,8 @@
       {
         lcd.setCursor(0,1);
         lcd.print("      Automatic       ");
-        int tt1 = 1;  int mm1 = 0;
         h = hour0;    m = minute0;
-        hh = h+tt1;   mm = m+mm1; 
+        hh = h+1;   mm = m+0; 
         automatic();
       }
    /////////////////////////////////////  Set temperature  //////////////////////////////////////////////////
